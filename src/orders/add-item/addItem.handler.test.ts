@@ -125,4 +125,89 @@ describe("AddItemHandler", () => {
 
     expect(events.publish).toHaveBeenCalled();
   });
+
+  it("passes orderId and item to addItem", async () => {
+    const orderId = "f0f180ac-9bc3-43de-b0ef-10a76430dbdb";
+    const item = {
+      sku: "40411e39-7126-4f86-9735-c9eda7cb39f7",
+      qty: 1,
+    };
+
+    const writeRepo: OrderWriteRepo = {
+      getOrderWithItems: vi.fn().mockReturnValue({
+        orderId,
+        status: "PENDING",
+      }),
+      addItem: vi.fn(),
+    } as unknown as OrderWriteRepo;
+    const events: EventBus = {
+      publish: vi.fn(),
+    } as unknown as EventBus;
+    const addItemHandler = new AddItemHandler(writeRepo, events);
+    const command: AddItemCommand = {
+      orderId,
+      item,
+    } as unknown as AddItemCommand;
+
+    await addItemHandler.execute(command);
+
+    expect(writeRepo.addItem).toHaveBeenCalledWith(orderId, item);
+  });
+
+  it("publishes OrderChanged event with orderId", async () => {
+    const orderId = "f0f180ac-9bc3-43de-b0ef-10a76430dbdb";
+
+    const writeRepo: OrderWriteRepo = {
+      getOrderWithItems: vi.fn().mockReturnValue({
+        orderId,
+        status: "PENDING",
+      }),
+      addItem: vi.fn(),
+    } as unknown as OrderWriteRepo;
+    const events: EventBus = {
+      publish: vi.fn(),
+    } as unknown as EventBus;
+    const addItemHandler = new AddItemHandler(writeRepo, events);
+    const command: AddItemCommand = {
+      orderId,
+      item: {
+        sku: "40411e39-7126-4f86-9735-c9eda7cb39f7",
+        qty: 1,
+      },
+    } as unknown as AddItemCommand;
+
+    await addItemHandler.execute(command);
+
+    expect(events.publish).toHaveBeenCalledWith({
+      type: "OrderChanged",
+      payload: { orderId },
+    });
+  });
+
+  it("pass orderId when quering repo", async () => {
+    const orderId = "f0f180ac-9bc3-43de-b0ef-10a76430dbdb";
+
+    const writeRepo: OrderWriteRepo = {
+      getOrderWithItems: vi.fn().mockReturnValue({
+        orderId,
+        status: "PENDING",
+      }),
+      addItem: vi.fn(),
+    } as unknown as OrderWriteRepo;
+    const events: EventBus = {
+      publish: vi.fn(),
+    } as unknown as EventBus;
+    const addItemHandler = new AddItemHandler(writeRepo, events);
+    const command: AddItemCommand = {
+      orderId,
+      item: {
+        sku: "40411e39-7126-4f86-9735-c9eda7cb39f7",
+        qty: 1,
+      },
+    } as unknown as AddItemCommand;
+
+    await addItemHandler.execute(command);
+
+    expect(writeRepo.getOrderWithItems).toHaveBeenCalledWith(orderId);
+  });
 });
