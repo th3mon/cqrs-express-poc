@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
-import { CreateOrderHandler } from "./createOrder.handler";
 import { OrderWriteRepo } from "../orderWriteRepo";
 import { EventBus } from "../../eventBus";
 import { CreateOrderCommand } from "./createOrder.command";
+import { CreateOrderHandler } from "./createOrder.handler";
 
 describe("CreateOrderHandler", () => {
   it("Instantiate", () => {

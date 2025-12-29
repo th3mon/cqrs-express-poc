@@ -1,7 +1,7 @@
-import { CommandHandler } from "../../command";
-import { EventBus } from "../../eventBus";
-import { OrderWriteRepo } from "../orderWriteRepo";
-import { CreateOrderCommand } from "./createOrder.command";
+import type { CommandHandler } from "../../command";
+import type { EventBus } from "../../eventBus";
+import type { OrderWriteRepo } from "../orderWriteRepo";
+import type { CreateOrderCommand } from "./createOrder.command";
 
 export class CreateOrderHandler implements CommandHandler<
   CreateOrderCommand,
