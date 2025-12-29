@@ -36,7 +36,7 @@ describe("CreateOrderHandler", () => {
       createOrder: vi
         .fn()
         .mockReturnValue({ id: "cf24a76b-b0d6-40a0-8fcc-36ac4c2ab95c" }),
-    };
+    } as unknown as OrderWriteRepo;
 
     const events: EventBus = {
       publish: vi.fn(),
@@ -64,7 +64,7 @@ describe("CreateOrderHandler", () => {
       createOrder: vi
         .fn()
         .mockReturnValue({ id: "cf24a76b-b0d6-40a0-8fcc-36ac4c2ab95c" }),
-    };
+    } as unknown as OrderWriteRepo;
 
     const events: EventBus = {
       publish: vi.fn(),
@@ -96,7 +96,7 @@ describe("CreateOrderHandler", () => {
       createOrder: vi
         .fn()
         .mockReturnValue({ id: "cf24a76b-b0d6-40a0-8fcc-36ac4c2ab95c" }),
-    };
+    } as unknown as OrderWriteRepo;
 
     const events: EventBus = {
       publish: vi.fn(),
@@ -126,7 +126,7 @@ describe("CreateOrderHandler", () => {
     const orderId = "cf24a76b-b0d6-40a0-8fcc-36ac4c2ab95c";
     const writeRepo: OrderWriteRepo = {
       createOrder: vi.fn().mockReturnValue({ id: orderId }),
-    };
+    } as unknown as OrderWriteRepo;
 
     const events: EventBus = {
       publish: vi.fn(),
@@ -156,7 +156,7 @@ describe("CreateOrderHandler", () => {
     const orderId = "cf24a76b-b0d6-40a0-8fcc-36ac4c2ab95c";
     const writeRepo: OrderWriteRepo = {
       createOrder: vi.fn().mockReturnValue({ id: orderId }),
-    };
+    } as unknown as OrderWriteRepo;
 
     const events: EventBus = {
       publish: vi.fn(),
