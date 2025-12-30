@@ -9,6 +9,14 @@ export class EventBus {
     Array<(e: DomainEvent) => Promise<void>>
   >();
 
+  on(type: string, fn: (e: DomainEvent) => Promise<void>) {
+    const arr = this.listeners.get(type) ?? [];
+
+    arr.push(fn);
+
+    this.listeners.set(type, arr);
+  }
+
   async publish(event: DomainEvent) {
     const arr = this.listeners.get(event.type) ?? [];
 
