@@ -5,16 +5,36 @@ export class OrderWriteRepo {
     return { id: "" };
   }
 
-  async getOrderWithItems(orderId: string): Promise<{
-    status: string;
-    orderId: string;
-    item: OrderItemInput;
-  }> {
-    return {
-      status: "",
-      orderId,
-      item: [] as unknown as OrderItemInput,
+  async getOrderWithItems(orderId: string) {
+    const orderWithItems = {
+      id: "order-001",
+      customerId: "customer-123",
+      status: "CREATED",
+      createdAt: new Date("2025-01-10T10:15:00.000Z"),
+
+      items: [
+        {
+          id: "item-001",
+          orderId: "order-001",
+          sku: "SKU-APPLE",
+          qty: 2,
+        },
+        {
+          id: "item-002",
+          orderId: "order-001",
+          sku: "SKU-BANANA",
+          qty: 1,
+        },
+        {
+          id: "item-003",
+          orderId: "order-001",
+          sku: "SKU-ORANGE",
+          qty: 5,
+        },
+      ],
     };
+
+    return orderWithItems;
   }
 
   async addItem(orderId: string, item: OrderItemInput) {
