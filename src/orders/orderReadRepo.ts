@@ -32,7 +32,7 @@ export class OrderReadRepo {
     customerId?: string;
     take?: number;
     skip?: number;
-  }) {
+  }): Promise<OrderViewDTO[]> {
     const { customerId, take = 20, skip = 0 } = params;
 
     // return prisma.orderView.findMany({
@@ -41,5 +41,6 @@ export class OrderReadRepo {
     //   take,
     //   skip,
     // });
+    return [];
   }
 }
