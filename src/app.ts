@@ -3,6 +3,8 @@ import express from "express";
 
 import { CommandBus, QueryBus } from "./bus.ts";
 import { ordersRoutes } from "./orders/orders.routes.ts";
+import { ListOrdersHandler } from "./orders/list-orders/listOrders.hander.ts";
+import { OrderReadRepo } from "./orders/orderReadRepo.ts";
 
 const app = express();
 
@@ -10,6 +12,9 @@ app.use(express.json());
 
 const commandBus = new CommandBus();
 const queryBus = new QueryBus();
+
+const readRepo = new OrderReadRepo();
+queryBus.register(new ListOrdersHandler(readRepo));
 
 app.use("/api/orders", ordersRoutes(commandBus, queryBus));
 app.get("/api/health", (_req, res) => res.json({ ok: true }));

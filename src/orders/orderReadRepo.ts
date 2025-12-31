@@ -34,6 +34,32 @@ export class OrderReadRepo {
     skip?: number;
   }): Promise<OrderViewDTO[]> {
     const { customerId, take = 20, skip = 0 } = params;
+    const ordersFromDB: OrderViewDTO[] = [
+      {
+        id: "order-001",
+        customerId: "customer-123",
+        status: "CREATED",
+        statusText: "Created",
+        itemCount: 3,
+        createdAt: new Date("2025-01-10T10:15:00.000Z"),
+      },
+      {
+        id: "order-002",
+        customerId: "customer-456",
+        status: "PAID",
+        statusText: "Paid",
+        itemCount: 1,
+        createdAt: new Date("2025-01-11T14:42:30.000Z"),
+      },
+      {
+        id: "order-003",
+        customerId: "customer-123",
+        status: "CANCELLED",
+        statusText: "Cancelled",
+        itemCount: 5,
+        createdAt: new Date("2025-01-12T08:05:45.000Z"),
+      },
+    ];
 
     // return prisma.orderView.findMany({
     //   where: customerId ? { customerId } : undefined,
@@ -41,6 +67,6 @@ export class OrderReadRepo {
     //   take,
     //   skip,
     // });
-    return [];
+    return ordersFromDB;
   }
 }

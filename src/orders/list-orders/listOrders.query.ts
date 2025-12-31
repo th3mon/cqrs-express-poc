@@ -1,4 +1,4 @@
-import { Query } from "../../query";
+import type { Query } from "../../query.ts";
 
 export type ListOrdersQuery = Query & {
   type: "ListOrders";

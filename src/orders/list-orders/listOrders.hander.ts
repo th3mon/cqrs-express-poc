@@ -1,6 +1,6 @@
-import { QueryHandler } from "../../query";
-import { OrderReadRepo, OrderViewDTO } from "../orderReadRepo";
-import { ListOrdersQuery } from "./listOrders.query";
+import type { QueryHandler } from "../../query.ts";
+import type { OrderReadRepo, OrderViewDTO } from "../orderReadRepo.ts";
+import type { ListOrdersQuery } from "./listOrders.query.ts";
 
 export class ListOrdersHandler implements QueryHandler<
   ListOrdersQuery,
@@ -8,7 +8,11 @@ export class ListOrdersHandler implements QueryHandler<
 > {
   type: ListOrdersQuery["type"] = "ListOrders";
 
-  constructor(private readRepo: OrderReadRepo) {}
+  private readRepo: OrderReadRepo;
+
+  constructor(readRepo: OrderReadRepo) {
+    this.readRepo = readRepo;
+  }
 
   async execute(query: ListOrdersQuery): Promise<OrderViewDTO[]> {
     const orders = await this.readRepo.listViews({
