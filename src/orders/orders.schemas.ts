@@ -9,3 +9,13 @@ export const listOrdersQuerySchema = z.object({
 export const orderQuerySchema = z.object({
   id: z.string().trim().min(1),
 });
+
+export const orderItemSchema = z.object({
+  sku: z.string().trim().min(1),
+  qty: z.number().int().positive(),
+});
+
+export const createOrderBodySchema = z.object({
+  customerId: z.string().trim().min(1),
+  items: z.array(orderItemSchema).min(1),
+});
