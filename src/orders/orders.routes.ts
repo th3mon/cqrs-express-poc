@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { CommandBus, QueryBus } from "../bus.ts";
-import { listOrdersQuerySchema } from "./orders.schemas.ts";
+import { listOrdersQuerySchema, orderQuerySchema } from "./orders.schemas.ts";
 import type { ListOrdersQuery } from "./list-orders/listOrders.query.ts";
 import type { OrderViewDTO } from "./orderReadRepo.ts";
+import type { GetOrderQuery } from "./get-order/getOrder.query.ts";
 
 export function ordersRoutes(commandBus: CommandBus, queryBus: QueryBus) {
   const router = Router();
@@ -22,6 +23,21 @@ export function ordersRoutes(commandBus: CommandBus, queryBus: QueryBus) {
     });
 
     res.json(views ?? []);
+  });
+
+  router.get("/:id", async (req, res) => {
+    const result = orderQuerySchema.safeParse(req.params);
+
+    if (!result.success) {
+      return res.status(400).json(result.error.format());
+    }
+
+    const view = await queryBus.execute<GetOrderQuery, OrderViewDTO>({
+      type: "GetOrder",
+      id: result.data.id,
+    });
+
+    res.json(view);
   });
 
   return router;

@@ -5,3 +5,7 @@ export const listOrdersQuerySchema = z.object({
   take: z.coerce.number().int().min(1).max(200).optional(),
   skip: z.coerce.number().int().min(0).optional(),
 });
+
+export const orderQuerySchema = z.object({
+  id: z.string().trim().min(1),
+});

@@ -64,4 +64,24 @@ describe("ordersRoutes", () => {
       expect(res.body).toEqual([]);
     });
   });
+
+  describe("GET /:id", () => {
+    it("returns order", async () => {
+      const view = {
+        id: "order-1",
+        customerId: "customer-666",
+        status: "CREATED",
+        statusText: "Created",
+        itemCount: 3,
+        createdAt: "2025-12-31T04:38:02.000Z",
+      };
+
+      const { app } = setup({ queryResult: view });
+
+      const res = await request(app).get("/666");
+
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual(view);
+    });
+  });
 });
