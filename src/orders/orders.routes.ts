@@ -1,5 +1,3 @@
-// TODO: Implement
-
 import { Router } from "express";
 import { CommandBus, QueryBus } from "../bus.ts";
 import { listOrdersQuerySchema } from "./orders.schemas.ts";
@@ -23,11 +21,7 @@ export function ordersRoutes(commandBus: CommandBus, queryBus: QueryBus) {
       skip: result.data.skip,
     });
 
-    if (!views.length) {
-      return res.status(404).json({ error: "Orders not found" });
-    }
-
-    res.json(views);
+    res.json(views ?? []);
   });
 
   return router;
