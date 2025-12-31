@@ -1,6 +1,6 @@
-import { EventBus } from "../eventBus";
-import { OrderReadRepo } from "./orderReadRepo";
-import { OrderWriteRepo } from "./orderWriteRepo";
+import { EventBus } from "../eventBus.ts";
+import { OrderReadRepo } from "./orderReadRepo.ts";
+import { OrderWriteRepo } from "./orderWriteRepo.ts";
 
 type OrderEvents = {
   OrderCreated: { orderId: string };
