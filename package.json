@@ -2,9 +2,10 @@
   "name": "cqrs-express-poc",
   "version": "1.0.0",
   "main": "app.ts",
+  "type": "module",
   "scripts": {
-    "start": "node app.ts",
-    "dev": "node --watch app.ts",
+    "start": "node src/app.ts",
+    "dev": "node --watch src/app.ts",
     "test": "vitest"
   },
   "keywords": [],
