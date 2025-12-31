@@ -1,7 +1,7 @@
-import type { CommandHandler } from "../../command";
-import type { EventBus } from "../../eventBus";
-import type { OrderWriteRepo } from "../orderWriteRepo";
-import type { CreateOrderCommand } from "./createOrder.command";
+import type { CommandHandler } from "../../command.ts";
+import type { EventBus } from "../../eventBus.ts";
+import type { OrderWriteRepo } from "../orderWriteRepo.ts";
+import type { CreateOrderCommand } from "./createOrder.command.ts";
 
 export class CreateOrderHandler implements CommandHandler<
   CreateOrderCommand,
@@ -9,10 +9,13 @@ export class CreateOrderHandler implements CommandHandler<
 > {
   type: CreateOrderCommand["type"] = "CreateOrder";
 
-  constructor(
-    private writeRepo: OrderWriteRepo,
-    private events: EventBus,
-  ) {}
+  private writeRepo: OrderWriteRepo;
+  private events: EventBus;
+
+  constructor(writeRepo: OrderWriteRepo, events: EventBus) {
+    this.writeRepo = writeRepo;
+    this.events = events;
+  }
 
   async execute(command: CreateOrderCommand): Promise<{ id: string }> {
     const order = await this.writeRepo.createOrder(
@@ -22,7 +25,7 @@ export class CreateOrderHandler implements CommandHandler<
 
     await this.events.publish({
       type: "OrderCreated",
-      payload: { order: order.id },
+      payload: { orderId: order.id },
     });
 
     return { id: order.id };
