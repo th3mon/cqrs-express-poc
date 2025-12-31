@@ -1,45 +1,28 @@
+import { prisma } from "../../prisma/client.ts";
+
 export type OrderItemInput = { sku: string; qty: number };
 
 export class OrderWriteRepo {
-  async createOrder(createOrder: any, items: OrderItemInput[]) {
-    return { id: "" };
-  }
-
-  async getOrderWithItems(orderId: string) {
-    const orderWithItems = {
-      id: "order-001",
-      customerId: "customer-123",
-      status: "CREATED",
-      createdAt: new Date("2025-01-10T10:15:00.000Z"),
-
-      items: [
-        {
-          id: "item-001",
-          orderId: "order-001",
-          sku: "SKU-APPLE",
-          qty: 2,
-        },
-        {
-          id: "item-002",
-          orderId: "order-001",
-          sku: "SKU-BANANA",
-          qty: 1,
-        },
-        {
-          id: "item-003",
-          orderId: "order-001",
-          sku: "SKU-ORANGE",
-          qty: 5,
-        },
-      ],
-    };
-
-    return orderWithItems;
+  async createOrder(customerId: string, items: OrderItemInput[]) {
+    return prisma.order.create({
+      data: {
+        customerId,
+        items: { create: items.map((i) => ({ sku: i.sku, qty: i.qty })) },
+      },
+      include: { items: true },
+    });
   }
 
   async addItem(orderId: string, item: OrderItemInput) {
-    const items = new Map<string, OrderItemInput>();
+    return prisma.orderItem.create({
+      data: { orderId, sku: item.sku, qty: item.qty },
+    });
+  }
 
-    items.set(orderId, item);
+  async getOrderWithItems(orderId: string) {
+    return prisma.order.findUnique({
+      where: { id: orderId },
+      include: { items: true },
+    });
   }
 }
